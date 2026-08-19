@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jade's Bachelorette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* "Heavenly Goddess / Mount Olympus" Theme */
+    :root {
+      --bg: #f8f6f9;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      
+      /* Colors */
+      --gold: #d4af37;
+      --gold-dark: #b38f24;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      
+      --pink: #ff2a8d;
+      --pink-glow: rgba(255, 42, 141, 0.3);
+      
+      --text-dark: #2a1f28;
+      --text-muted: #6e5d6a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: linear-gradient(to bottom, rgba(248, 246, 249, 0.4), rgba(248, 246, 249, 0.7)), 
+                        url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text-dark);
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding-bottom: 120px;
+    }
+
+    header {
+      text-align: center;
+      margin: 30px 0 40px;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 2px solid var(--gold);
+      box-shadow: 0 10px 30px var(--gold-glow), 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+
+    .goddess-symbols {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+    }
+
+    header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 3rem;
+      color: var(--pink);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 0 0 10px var(--pink-glow);
+    }
+
+    header p {
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Hover effect */
+    .card:nth-child(odd):hover {
+      box-shadow: 0 12px 30px var(--pink-glow);
+      border-color: var(--pink);
+      transform: translateY(-4px);
+    }
+    .card:nth-child(even):hover {
+      box-shadow: 0 12px 30px var(--gold-glow);
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+
+    /* Selection states */
+    .card.selected:nth-child(odd) {
+      border-color: var(--pink);
+      box-shadow: 0 10px 30px var(--pink-glow);
+      background: #ffffff;
+    }
+    .card.selected:nth-child(even) {
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px var(--gold-glow);
+      background: #ffffff;
+    }
+
+    .card-top {
+      text-align: center;
+    }
+
+    .icon-glow-line {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .card h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.4rem;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .card .price-tag {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--pink);
+      margin-bottom: 10px;
+    }
+
+    .card .note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .btn-action {
+      background: transparent;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      width: 100%;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .card:nth-child(odd) .btn-action {
+      color: var(--pink);
+      border: 2px solid var(--pink);
+    }
+    .card:nth-child(even) .btn-action {
+      color: var(--gold-dark);
+      border: 2px solid var(--gold);
+    }
+
+    /* Hover and Selected states */
+    .card:nth-child(odd) .btn-action:hover,
+    .card.selected:nth-child(odd) .btn-action {
+      background-color: var(--pink);
+      color: #ffffff;
+    }
+    
+    .card:nth-child(even) .btn-action:hover,
+    .card.selected:nth-child(even) .btn-action {
+      background-color: var(--gold);
+      color: #ffffff;
+    }
+
+    /* Quantity Controls */
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 10px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      transition: border-color 0.3s;
+    }
+
+    .card.selected:nth-child(3) .qty-controls { border-color: var(--pink); }
+
+    .btn-qty {
+      background: var(--gold);
+      color: #ffffff;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+    .btn-qty:hover {
+      background: var(--gold-dark);
+    }
+
+    .qty-display {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+    }
+
+    /* Checkout Bar */
+    .checkout-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(15px);
+      padding: 20px;
+      box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
+      z-index: 50;
+      border-top: 2px solid var(--gold);
+    }
+
+    .checkout-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+
+    .total-amount {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: var(--pink);
+    }
+
+    .btn-pay {
+      background-color: var(--pink);
+      color: #ffffff;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px var(--pink-glow);
+    }
+
+    .btn-pay:hover {
+      background-color: #e01f78;
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(42, 31, 40, 0.5);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      border: 2px solid var(--gold);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .modal h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .modal-summary-box {
+      background: var(--bg);
+      border: 1px dashed var(--gold);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .payid-badge {
+      background: #000000;
+      color: #00E676;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    .btn-copy {
+      background-color: var(--gold);
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .btn-copy:hover {
+      background-color: var(--gold-dark);
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="goddess-symbols">☁️ 🏛️ 🕊️</div>
+      <h1>Jade's Bachelorette</h1>
+      <p>Contribute to the fun from afar!</p>
+    </header>
+
+    <div class="grid" id="options-grid"></div>
+  </div>
+
+  <div class="checkout-bar">
+    <div class="checkout-content">
+      <div>
+        <div class="total-label">Goddess Offering:</div>
+        <div class="total-amount" id="total-price">$0</div>
+      </div>
+      <button class="btn-pay" onclick="openPaymentModal()">Pour Offering</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="payment-modal">
+    <div class="modal-content">
+      <h2>Praise Aphrodite!</h2>
+      <p>Your tribute total comes to <strong id="modal-total" style="color: var(--pink);">$0 AUD</strong>.</p>
+      
+      <div class="modal-summary-box">
+        <span class="payid-badge">PayID Transfer</span>
+        <div><strong>PayID Name:</strong> <span style="color: var(--gold-dark); font-weight: 600;">Angelina Phengphong</span></div>
+        <div><strong>PayID Mobile:</strong> <span id="payid-display">0438712600</span></div>
+        <hr style="margin: 10px 0; border: none; border-top: 1px solid #e0d8df;">
+        <div><strong>Transfer Description:</strong></div>
+        <div id="item-breakdown" style="color: var(--pink); font-weight: 600; margin-top: 5px;"></div>
+      </div>
+
+      <button class="btn-copy" id="copy-btn" onclick="copyDetails()">Copy PayID & Description to Clipboard</button>
+      <div><button class="btn-close" onclick="closePaymentModal()">Close</button></div>
+    </div>
+  </div>
+
+  <script>
+    const PAYID_NAME = "Angelina Phengphong";
+    const YOUR_PAYID = "0438712600";
+
+    const items = [
+      { id: 'bofam', title: 'Cameo from Bofam', unitPrice: 20, isQuantity: false, icon: '🎬', note: 'Contributions towards the $150 total cost goal' },
+      { id: 'wine', title: 'Bottle of Wine at the Show', unitPrice: 40, isQuantity: false, icon: '🍷', note: 'Treat Jade to a bottle during the show' },
+      { id: 'shot', title: 'A Shot for Jade', unitPrice: 10, isQuantity: true, icon: '🥃', note: 'Buy 1 or multiple shots for the Goddess!' }
+    ];
+
+    let selections = {
+      bofam: false,
+      wine: false,
+      shot: 0
+    };
+
+    function render() {
+      const grid = document.getElementById('options-grid');
+      grid.innerHTML = items.map(item => {
+        if (!item.isQuantity) {
+          const isSelected = selections[item.id];
+          return `
+            <div class="card ${isSelected ? 'selected' : ''}">
+              <div class="card-top">
+                <div class="icon-glow-line">${item.icon}</div>
+                <h3>${item.title}</h3>
+                <div class="price-tag">$${item.unitPrice} contribution</div>
+                <div class="note">${item.note}</div>
+              </div>
+              <button class="btn-action" onclick="toggleSelect('${item.id}')">
+                ${isSelected ? 'Offer Selected ✓' : 'Add to Offering'}
+              </button>
+            </div>
+          `;
+        } else {
+          const qty = selections[item.id];
+          return `
+            <div class="card ${qty > 0 ? 'selected' : ''}">
+              <div class="card-top">
+                <div class="icon-glow-line">${item.icon}</div>
+                <h3>${item.title}</h3>
+                <div class="price-tag">$${item.unitPrice} each</div>
+                <div class="note">${item.note}</div>
+              </div>
+              <div class="qty-controls">
+                <button class="btn-qty" onclick="changeQty('${item.id}', -1)">-</button>
+                <span class="qty-display">${qty} selected</span>
+                <button class="btn-qty" onclick="changeQty('${item.id}', 1)">+</button>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      updateTotal();
+    }
+
+    function toggleSelect(id) {
+      selections[id] = !selections[id];
+      render();
+    }
+
+    function changeQty(id, delta) {
+      selections[id] = Math.max(0, selections[id] + delta);
+      render();
+    }
+
+    function calculateTotal() {
+      let total = 0;
+      if (selections.bofam) total += 20;
+      if (selections.wine) total += 40;
+      total += selections.shot * 10;
+      return total;
+    }
+
+    function getBreakdownText() {
+      let parts = [];
+      if (selections.bofam) parts.push("1x Cameo");
+      if (selections.wine) parts.push("1x Wine");
+      if (selections.shot > 0) parts.push(`${selections.shot}x Shot`);
+      return "Jade Bach: " + parts.join(", ");
+    }
+
+    function updateTotal() {
+      const total = calculateTotal();
+      document.getElementById('total-price').innerText = `$${total}`;
+    }
+
+    function openPaymentModal() {
+      const total = calculateTotal();
+      if (total === 0) {
+        alert('Please select at least one gift option!');
+        return;
+      }
+
+      document.getElementById('payid-display').innerText = YOUR_PAYID;
+      document.getElementById('modal-total').innerText = `$${total} AUD`;
+      document.getElementById('item-breakdown').innerText = getBreakdownText();
+      document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').style.display = 'none';
+      document.getElementById('copy-btn').innerText = "Copy PayID & Description to Clipboard";
+    }
+
+    function copyDetails() {
+      const textToCopy = `PayID Name: ${PAYID_NAME}\nPayID Mobile: ${YOUR_PAYID}\nAmount: $${calculateTotal()} AUD\nDescription: ${getBreakdownText()}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        document.getElementById('copy-btn').innerText = "Details Copied! Paste into Bank App ✓";
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>
